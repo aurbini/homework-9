@@ -1,30 +1,53 @@
-<!DOCTYPE html>
+
+  //Node Modules
+  const inquirer = require('inquirer');
+  const fs = require('fs');
+  convertFactory = require('electron-html-to');
+  const path = require('path'); 
+  const { app, BrowserWindow } = require('electron')
+  const axios = require('axios');
+  const html = fs.readFileSync('./profile.html', 'utf8');
+
+//Colors 
+yellowArray = ['rgb(249 166 2)', 'rgb(252 226 5)', 'rgb(252 244 163)'];
+blueArray = ['rgb(101, 24, 198)', 'rgb(15 82 186)', 'rgb(137 207 240)'];
+redArray = ['#420D09', '#D30000', '#FA8072', '#FA8072'];
+greenArray = ['rgb(11 102 35)', 'rgb(76 187 23)', 'rgb(208 240 192)'];
+
+
+  function userProfileHTML (data, response) {
+    var htmlPage = 
+  `<!DOCTYPE html>
   <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Document</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <link rel="stylesheet" href="style.css">
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js" type="text/javascript"></script>
     <style> 
     body {
       -webkit-print-color-adjust:exact !important;
       background-color: ${response[0]};
     }
-    .main {
-      height: 100%;
+    #main {
+      position: absolute; 
+      bottom: 200px;
+      height: 1400px;
+      width: 1200px;
       background-color:${response[0]};
     }
     .profile-img {
       border-radius: 50%;
       position: absolute;
-      bottom: 60%;
+      bottom: 70%;
       max-width: 220px;
       margin: 0 auto;
       left:17%;
       border: 6px solid ${response[2]}; 
     }
-    h5 {
-      padding-top: 100px;
+    h2 {
+      padding-top: 130px;
     }
     .top-container {
       margin: 150px auto;
@@ -42,6 +65,10 @@
       border: 3px grey response[2];
       background-color: ${response[2]} 
     }
+    .card-text {
+      font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+      font-size: 1.5em; 
+    }
     .badge {
       padding: 3% 6%;
       font-size: larger;
@@ -50,6 +77,8 @@
       text-align: center;
     }
     .bottom-container {
+      padding-top: 30px;
+      padding-bottom: 30px; 
       display: flex; 
       justify-content: space-around;
       flex-wrap: wrap;
@@ -67,9 +96,10 @@
       width: 250px;
       padding: 10px 20px;
       height: 150px;
-      margin-top: 30px;
+      margin-top: 40px;
+      margin-bottom: 40px;
       line-height: 150px;
-      color: black;
+      color: white;
       font-weight: bold;
       font-size: 1em;
       text-align: center;
@@ -82,7 +112,7 @@
     }
     .badge {
       font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
-      font-size: 1.5em; 
+      font-size: 2em; 
       font-weight: bolder;
       overflow: hidden;
     }
@@ -92,9 +122,9 @@
     <div class="" id="main">
       <div class="top-container">
         <div class="card" style="width: 23rem;">
-          <img src="assets/profile-pic.jpg" class="profile-img card-img-top" alt="profile-pic">
+          <img src="${data.avatar_url}" class="profile-img card-img-top" alt="profile-pic">
           <div class="card-body">
-            <h5 class="card-title use">${data.login}</h5>
+            <h2 class="card-title use">${data.login}</h2>
             <p class="card-text"><a class="location" href="">${data.location}</a></p>
             <p class="card-text"><a class='profile: ' href=""></a>Profile: ${data.html_url}</p>
             <p class="card-text"><a class='bio:' href=""></a>${data.bio}</p>
@@ -122,3 +152,46 @@
     </div>
   </body>
   <html lang="en">`
+  return htmlPage 
+}
+
+  //inquirer
+  inquirer
+    .prompt([
+      {
+        type: "input",
+        message: "What is your Github user name?",
+        name: "username"
+      },
+      {
+        type: "list",
+        message: "What is your favorite color?",
+        name: "color",
+        choices: [
+          'green', 'blue','red', 'yellow'
+        ]
+      },
+    ])
+  .then((response) => { 
+    const {username, color} = response
+  
+    //console.log(`Your username is ${response.username}, fav color is ${response.password}`)
+    if(color === 'yellow'){
+      githubCall(username, colors)
+    }else if(color === 'green'){
+      //const user = await fetchUser(username,greenArray); 
+    }else if(color === 'red'){
+      //const user = await fetchUser(username,redArray); 
+    }else {
+     // const user = await fetchUser(username,blueArray); 
+    }
+  })
+
+
+  const githubCall = (username, colors) => {
+  axios
+  .get(`https://api.github.com/search/users?q=${username}`)
+  .then(function(res) {
+    console.log(res.data);
+  });
+}
