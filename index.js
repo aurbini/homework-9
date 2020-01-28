@@ -42,21 +42,24 @@ greenArray = ['rgb(11 102 35)', 'rgb(76 187 23)', 'rgb(208 240 192)'];
       -webkit-print-color-adjust:exact !important;
       background-color: ${response[0]};
     }
-    .main {
-      height: 100%;
+    #main {
+      position: absolute; 
+      bottom: 200px;
+      height: 1400px;
+      width: 1200px;
       background-color:${response[0]};
     }
     .profile-img {
       border-radius: 50%;
       position: absolute;
-      bottom: 60%;
+      bottom: 70%;
       max-width: 220px;
       margin: 0 auto;
       left:17%;
       border: 6px solid ${response[2]}; 
     }
-    h5 {
-      padding-top: 100px;
+    h2 {
+      padding-top: 130px;
     }
     .top-container {
       margin: 150px auto;
@@ -74,6 +77,10 @@ greenArray = ['rgb(11 102 35)', 'rgb(76 187 23)', 'rgb(208 240 192)'];
       border: 3px grey response[2];
       background-color: ${response[2]} 
     }
+    .card-text {
+      font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+      font-size: 1.5em; 
+    }
     .badge {
       padding: 3% 6%;
       font-size: larger;
@@ -82,6 +89,8 @@ greenArray = ['rgb(11 102 35)', 'rgb(76 187 23)', 'rgb(208 240 192)'];
       text-align: center;
     }
     .bottom-container {
+      padding-top: 30px;
+      padding-bottom: 30px; 
       display: flex; 
       justify-content: space-around;
       flex-wrap: wrap;
@@ -99,7 +108,8 @@ greenArray = ['rgb(11 102 35)', 'rgb(76 187 23)', 'rgb(208 240 192)'];
       width: 250px;
       padding: 10px 20px;
       height: 150px;
-      margin-top: 20px;
+      margin-top: 40px;
+      margin-bottom: 40px;
       line-height: 150px;
       color: white;
       font-weight: bold;
@@ -114,7 +124,7 @@ greenArray = ['rgb(11 102 35)', 'rgb(76 187 23)', 'rgb(208 240 192)'];
     }
     .badge {
       font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
-      font-size: 1.5em; 
+      font-size: 2em; 
       font-weight: bolder;
       overflow: hidden;
     }
@@ -126,7 +136,7 @@ greenArray = ['rgb(11 102 35)', 'rgb(76 187 23)', 'rgb(208 240 192)'];
         <div class="card" style="width: 23rem;">
           <img src="${data.avatar_url}" class="profile-img card-img-top" alt="profile-pic">
           <div class="card-body">
-            <h5 class="card-title use">${data.login}</h5>
+            <h2 class="card-title use">${data.login}</h2>
             <p class="card-text"><a class="location" href="">${data.location}</a></p>
             <p class="card-text"><a class='profile: ' href=""></a>Profile: ${data.html_url}</p>
             <p class="card-text"><a class='bio:' href=""></a>${data.bio}</p>
